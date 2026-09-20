@@ -620,7 +620,14 @@ function App() {
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error('Email service is not configured.')
+        const fallbackSubject = encodeURIComponent(form.subject)
+        const fallbackBody = encodeURIComponent(
+          `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`,
+        )
+        window.location.href = `mailto:${profile.email}?subject=${fallbackSubject}&body=${fallbackBody}`
+        setStatus('success')
+        setFormNotice('Your email app is opening. Please send the prepared message to complete your enquiry.')
+        return
       }
 
       await emailjs.send(
@@ -643,9 +650,10 @@ function App() {
       setFormNotice('Message sent successfully. Thank you for reaching out.')
       setForm({ name: '', email: '', phone: '', subject: '', message: '' })
       setErrors({})
-    } catch {
+    } catch (error) {
+      console.error('Contact form submission failed:', error)
       setStatus('error')
-      setFormNotice('Something went wrong while sending your message. Please try again.')
+      setFormNotice('The online form could not send your message. Please use Email Directly below or try again later.')
     }
   }
 
