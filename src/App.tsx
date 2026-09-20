@@ -44,7 +44,6 @@ import {
   SearchCheck,
   Send,
   ShieldCheck,
-  Sun,
   Table2,
   Target,
   UserRound,
@@ -703,8 +702,9 @@ function App() {
               className="theme-toggle"
               onClick={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
-              <span aria-hidden="true">{theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}</span>
+              <span className="theme-icon" aria-hidden="true"><Moon size={19} strokeWidth={2.2} /></span>
             </button>
             <button
               type="button"
