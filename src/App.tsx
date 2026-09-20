@@ -613,19 +613,23 @@ function App() {
     setStatus('loading')
     setFormNotice('')
 
+    const openEmailFallback = () => {
+      const fallbackSubject = encodeURIComponent(form.subject)
+      const fallbackBody = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`,
+      )
+      window.location.href = `mailto:${profile.email}?subject=${fallbackSubject}&body=${fallbackBody}`
+      setStatus('success')
+      setFormNotice('Your email app is opening. Please send the prepared message to complete your enquiry.')
+    }
+
     try {
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
       if (!serviceId || !templateId || !publicKey) {
-        const fallbackSubject = encodeURIComponent(form.subject)
-        const fallbackBody = encodeURIComponent(
-          `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`,
-        )
-        window.location.href = `mailto:${profile.email}?subject=${fallbackSubject}&body=${fallbackBody}`
-        setStatus('success')
-        setFormNotice('Your email app is opening. Please send the prepared message to complete your enquiry.')
+        openEmailFallback()
         return
       }
 
@@ -635,6 +639,7 @@ function App() {
         {
           name: form.name,
           email: form.email,
+          reply_to: form.email,
           phone: form.phone,
           subject: form.subject,
           message: form.message,
@@ -651,8 +656,7 @@ function App() {
       setErrors({})
     } catch (error) {
       console.error('Contact form submission failed:', error)
-      setStatus('error')
-      setFormNotice('The online form could not send your message. Please use Email Directly below or try again later.')
+      openEmailFallback()
     }
   }
 
