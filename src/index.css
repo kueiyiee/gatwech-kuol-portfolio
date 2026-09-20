@@ -4691,6 +4691,22 @@ header {
   color: #8fd1a9;
 }
 
+.form-success-icon {
+  animation: successIconReveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes successIconReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 520px) {
   .contact-form-header {
     align-items: stretch;
@@ -4710,6 +4726,10 @@ header {
   .form-button:hover,
   .form-button:focus-visible {
     transform: none;
+  }
+
+  .form-success-icon {
+    animation: none;
   }
 }
 

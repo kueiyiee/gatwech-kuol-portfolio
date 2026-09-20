@@ -651,7 +651,7 @@ function App() {
       )
 
       setStatus('success')
-      setFormNotice('Message sent successfully. Thank you for reaching out.')
+      setFormNotice('Your message has been delivered successfully. Thank you for reaching out — I’ll get back to you shortly.')
       setForm({ name: '', email: '', phone: '', subject: '', message: '' })
       setErrors({})
     } catch (error) {
@@ -1377,8 +1377,8 @@ function App() {
 
               {formNotice && (
                 <div className={`form-notice form-notice-${status}`} role={status === 'error' ? 'alert' : 'status'} aria-live="polite">
-                  {status === 'success' && <CircleCheck size={19} strokeWidth={2.2} aria-hidden="true" />}
                   <span>{formNotice}</span>
+                  {status === 'success' && <CircleCheck className="form-success-icon" size={19} strokeWidth={2.2} aria-hidden="true" />}
                 </div>
               )}
             </form>
